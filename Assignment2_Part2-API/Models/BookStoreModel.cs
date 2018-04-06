@@ -17,5 +17,7 @@ namespace Assignment2_Part2API.Models
         }
 
         public DbSet<bookInfo> bookInfo { get; set; }
+
+        public DbSet<bookLocation> bookLocations { get; set; }
     }
 }

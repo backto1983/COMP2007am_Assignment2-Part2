@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace Assignment2_Part2API.Models
 {
-    public class bookInfo
+    public class bookLocation
     {
         [Key]
+        public int bookStoreNumber { get; set; }
         public int bookID { get; set; }
         [Required]
-        public string bookName { get; set; }
+        public string bookStoreLocation { get; set; }
         [Required]
-        public string bookAuthor { get; set; }
-        public string bookGenre { get; set; }
-        public int? bookEdition { get; set; }
-        public int? bookReleaseYear { get; set; }
+        public string bookShelve { get; set; }
+        public string bookPhysical { get; set; }
     }
 }
