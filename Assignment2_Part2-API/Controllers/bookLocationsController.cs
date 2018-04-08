@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Assignment2_Part2API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Assignment2_Part2_API.Controllers
 {
@@ -43,20 +44,40 @@ namespace Assignment2_Part2_API.Controllers
         
         // POST: api/bookLocations
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]bookLocation bookLocation)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            db.bookLocations.Add(bookLocation);
+            db.SaveChanges();
+            return CreatedAtAction("Post", new { id = bookLocation.bookID }, bookLocation);
         }
         
         // PUT: api/bookLocations/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]bookLocation bookLocation)
         {
+            if(!ModelState.IsValid)
+                return BadRequest();
+
+            db.Entry(bookLocation).State = EntityState.Modified;
+            db.SaveChanges();
+            return AcceptedAtAction("Get", new { id = bookLocation.bookID }, bookLocation);
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var bookLocation = db.bookLocations.SingleOrDefault(a => a.bookID == id);
+
+            if (bookLocation == null)
+                return NotFound();
+
+            db.bookLocations.Remove(bookLocation);
+            db.SaveChanges();
+            return Ok();
         }
     }
 }
